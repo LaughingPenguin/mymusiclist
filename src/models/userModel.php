@@ -31,8 +31,15 @@ class UserModel extends Database {
     public function getUsers () {
     }
 
-    public function getUserById () {
+    public function getUserById ($email) {
+        $checkUserQuery = $this->connection->prepare("SELECT id FROM users where email = ?");
+        $checkUserQuery->bind_param("s", $email);
+        if ($checkUserQuery->execute()) {
+            $result = $checkUserQuery->get_result();
+            if ($result->num_rows > 0) {
+                return $result->fetch_assoc();
+            }
+        }
     }
 }
-
 ?>
