@@ -14,7 +14,30 @@ class UserModel extends Database {
         }
     }
 
-    public function updateUser () {
+    public function updateUserPassword ($email, $newpassword) {
+        $newHashedPassword = password_hash($newpassword, PASSWORD_DEFAULT);
+        $sql = "UPDATE users SET password = ? WHERE username = ?";
+        $updateUserQuery = $this->connection->prepare($sql);
+        $updateUserQuery->bind_param("ss", $newHashedPassword, $email);
+        if ($updateUserQuery->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verifyUserPassword ($email, $password) {
+        $sql = "SELECT * FROM users WHERE username = ?";
+        $verifyUserQuery = $this->connection->prepare($sql);
+        $verifyUserQuery->bind_param("s", $email);
+        $verifyUserQuery->execute();
+        $result = $verifyUserQuery->get_result();
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user["password"])) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function deleteUser () {
