@@ -14,19 +14,20 @@ body {
     padding: 10px;
     font-size: 16px;
 }
-.form-signup input[type="email"] {
+.form-signup input[type="username"] {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
-.form-signup input[name="password"] {
+.form-signup input[name="email"] {
     margin-bottom: -1px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
-.form-signup input[name="confirmpassword"] {
+.form-signup input[name="password"] {
+    margin-top: -2px;
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
