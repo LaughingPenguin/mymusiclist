@@ -14,7 +14,7 @@ class Login extends Component {
       this.setState((prevState) => ({
           data : {
               ...prevState.data,
-              [value] : value,
+              [name] : value,
           }
       }))
   }
