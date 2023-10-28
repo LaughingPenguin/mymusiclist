@@ -5,7 +5,8 @@ require __DIR__ . "/inc/bootstrap.php";
 $uri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 # WARNING: only allow for testing in local backend env
-header("Access-Control-Allow-Origin:*");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
 $uri = explode ("/", $uri);
 # redirect to user controller if uri contains user
