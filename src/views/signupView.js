@@ -11,11 +11,11 @@ class SignUp extends Component {
         }
     }
     handleChange = (e) => {
-        const { key, value } = e.target
+        const { name, value } = e.target
         this.setState((prevState) => ({
             data : {
                 ...prevState.data,
-                [key] : value,
+                [name] : value,
             }
         }))
     }
