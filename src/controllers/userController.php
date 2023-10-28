@@ -37,6 +37,27 @@ class UserController extends BaseController {
             }
         }
     }
+
+    /* loginAction enables the user to log into their account by,
+     * checking that the provided email exists,
+     * and verifying that the provided password matches the stored password.
+     */
+    public function loginAction () {
+        $requestMethod = $_SERVER["REQUEST_METHOD"];
+        if (strtoupper ($requestMethod) == "POST") {
+            $postData = json_decode(file_get_contents("php://input"), true);
+            $userModel = new UserModel();
+            if ($userModel->getUserById($postData["email"])) {
+                if ($userModel->verifyUserPassword($postData['email'], $postData['password'])) {
+                    echo 'Login successful. You will be redirected shortly';
+                } else {
+                    echo 'Password is incorrect. Please try again.';
+                }
+            } else {
+                echo "User does not exist. Please sign up for an account.";
+            }
+        }
+    }
 }
 
 ?>
