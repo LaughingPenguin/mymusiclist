@@ -38,7 +38,10 @@ class ReviewModel extends Database {
         }
     }
 
-    public function getReview () {
+    public function getReviews () {
+        $sql = "SELECT username, song, artist, rating FROM ratings";
+        $result = mysql_query($connection, $sql);
+        return $result;
     }
 
     public function getReviewById ($username, $song, $artist) {
