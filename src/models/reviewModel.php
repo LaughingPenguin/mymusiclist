@@ -6,7 +6,7 @@ class ReviewModel extends Database {
         $sql = "INSERT INTO ratings (username, song, artist, rating) VALUES (?, ?, ?, ?)";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("sssi", $username, $song, $artist, $rating);
-        if ($stmt->exectute()){
+        if ($stmt->execute()){
             return true;
         }
         else {
@@ -15,7 +15,7 @@ class ReviewModel extends Database {
     }   
 
     public function updateReview ($id, $song, $artist, $rating) {
-        $sql = "UPDATE ratings SET (song = ?, artist = ?, rating = ?) WHERE id = ?";
+        $sql = "UPDATE ratings SET song = ?, artist = ?, rating = ? WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
         $stmt->bind_param("ssii", $song, $artist, $rating, $id);
         if ($stmt->execute()){
@@ -40,7 +40,7 @@ class ReviewModel extends Database {
 
     public function getReviews () {
         $sql = "SELECT username, song, artist, rating FROM ratings";
-        $result = mysql_query($connection, $sql);
+        $result = mysqli_query($this->connection, $sql);
         return $result;
     }
 

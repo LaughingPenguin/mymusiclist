@@ -35,17 +35,14 @@ class ReviewController extends BaseController {
         if (strtoupper ($requestMethod) == "PUT") {
             $postData = json_decode(file_get_contents("php://input"), true);
             $reviewModel = new ReviewModel();
-            if ($reviewModel->getReviewById($postData["username"], $postData["song"], $postData["artist"])){
-                if ($reviewModel->updateReview()){
+                if ($reviewModel->updateReview($postData["id"], $postData["song"], $postData["artist"], $postData["rating"])){
                     echo "Review successfully updated.";
                 }
                 else {
                     echo "failed to update review.";
                 }
             }
-            echo "could not find review.";
         }
-    }
 
     public function deleteAction () {
         $requestMethod = $_SERVER["REQUEST_METHOD"];
@@ -53,14 +50,16 @@ class ReviewController extends BaseController {
             $postData = json_decode(file_get_contents("php://input"), true);
             $reviewModel = new ReviewModel();
             if ($reviewModel->getReviewById($postData["username"], $postData["song"], $postData["artist"])){
-                if ($reviewModel->deleteReview()){
+                if ($reviewModel->deleteReview($postData["id"])){
                     echo "Review successfully deleted.";
                 }
                 else {
                     echo "failed to delete review.";
                 }
             }
+            else{
             echo "could not find review.";
+            }
         }
     }
 }
