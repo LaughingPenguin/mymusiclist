@@ -12,7 +12,7 @@ class UserController extends BaseController {
         if (strtoupper ($requestMethod) == "POST") {
             $postData = json_decode(file_get_contents("php://input"), true);
             $userModel = new UserModel();
-            if ($userModel->getUserById($postData["email"])) {
+            if ($userModel->getUserByEmailUsername($postData["email"], $postData["username"])) {
                 header("Location: http://localhost:3000/login", true, 409);
             } else {
                 $userModel->createUser($postData["username"], $postData["email"], $postData["password"]);
@@ -55,7 +55,7 @@ class UserController extends BaseController {
         if (strtoupper ($requestMethod) == "POST") {
             $postData = json_decode(file_get_contents("php://input"), true);
             $userModel = new UserModel();
-            if ($userModel->getUserById($postData["email"])) {
+            if ($userModel->getUserByEmail($postData["email"])) {
                 if ($userModel->verifyUserPassword($postData['email'], $postData['password'])) {
                     header("Location: http://localhost:3000/review", true, 200);
                 } else {
