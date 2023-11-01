@@ -40,16 +40,35 @@ class UserModel extends Database {
         }
     }
 
-    public function deleteUser () {
+    public function deleteUser ($email) {
+        $sql = "DELETE FROM users WHERE email = ?";
+        $deleteUserQuery = $this->connection->prepare($sql);
+        $deleteUserQuery->bind_param("s", $email);
+        if ($deleteUserQuery->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public function getUsers () {
-    }
-
-    public function getUserById ($email) {
+    public function getUserByEmail ($email) {
         $sql = "SELECT id FROM users WHERE email = ?";
         $checkUserQuery = $this->connection->prepare($sql);
         $checkUserQuery->bind_param("s", $email);
+        if ($checkUserQuery->execute()) {
+            $result = $checkUserQuery->get_result();
+            if ($result->num_rows > 0) {
+                return $result->fetch_assoc();
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public function getUserByEmailUsername ($email, $username) {
+        $sql = "SELECT id FROM users WHERE email = ? OR username = ?";
+        $checkUserQuery = $this->connection->prepare($sql);
+        $checkUserQuery->bind_param("ss", $email, $username);
         if ($checkUserQuery->execute()) {
             $result = $checkUserQuery->get_result();
             if ($result->num_rows > 0) {
