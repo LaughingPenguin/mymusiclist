@@ -1,5 +1,5 @@
 import React from "react";
-import monkeyband from '../assets/monkeyband.png'
+import { monkeyband } from ".";
 
 const Hero = () => {
     return (

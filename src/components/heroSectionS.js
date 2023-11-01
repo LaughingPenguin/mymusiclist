@@ -1,7 +1,5 @@
 import React from 'react';
-import rateimg from '../assets/rate.webp';
-import reviewimg from '../assets/review.webp';
-import searchimg from '../assets/search.webp';
+import { rateimg, reviewimg, searchimg } from '.';
 
 const HeroTwo = () => {
     return (
