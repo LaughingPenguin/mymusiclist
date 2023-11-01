@@ -40,10 +40,15 @@ class UserModel extends Database {
         }
     }
 
-    public function deleteUser () {
-    }
-
-    public function getUsers () {
+    public function deleteUser ($email) {
+        $sql = "DELETE FROM users WHERE email = ?";
+        $deleteUserQuery = $this->connection->prepare($sql);
+        $deleteUserQuery->bind_param("s", $email);
+        if ($deleteUserQuery->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function getUserByEmail ($email) {

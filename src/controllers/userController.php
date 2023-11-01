@@ -67,6 +67,32 @@ class UserController extends BaseController {
         }
         exit;
     }
+
+    /* deleteAction enables the user to delete their account by,
+     * checking that the username and email combination exists,
+     * and verifying that the provided password matches the stored password.
+     */
+    public function deleteAction () {
+        $requestMethod = $_SERVER["REQUEST_METHOD"];
+        if (strtoupper ($requestMethod) == "DELETE") {
+            $postData = json_decode(file_get_contents("php://input"), true);
+            $userModel = new UserModel();
+            if ($userModel->getUserByEmailUsername($postData["email"], $postData["username"])) {
+                if ($userModel->verifyUserPassword($postData["email"], $postData["password"])) {
+                    if ($userModel->deleteUser($postData["email"])) {
+                        header("Location: http://localhost:3000/home", true, 204);
+                    } else {
+                        http_response_code(500);
+                    }
+                } else {
+                    http_response_code(401);
+                }
+            } else {
+                http_response_code(404);
+            }
+        }
+        exit;
+    }
 }
 
 ?>
