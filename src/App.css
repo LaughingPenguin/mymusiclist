@@ -1,0 +1,18 @@
+.question-container{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 10% 0 10%;
+}
+.question{
+    text-align: center;
+    margin-top: 20px;
+}
+.question summary{
+    background-color: #D7DEDC;
+    padding: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+.question p{
+    margin-top: 20px;
+}
