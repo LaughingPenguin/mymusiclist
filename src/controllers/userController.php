@@ -1,18 +1,25 @@
 <?php
 
 class UserController extends BaseController {
+    /* signupAction allows the user to create an account by,
+    * checking if the request method is a POST request from the client,
+    * extracting the JSON file for username, email, and password,
+    * checking if the combination of username and email already exists,
+    * and creating the user account.
+    */
     public function signupAction () {
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         if (strtoupper ($requestMethod) == "POST") {
             $postData = json_decode(file_get_contents("php://input"), true);
             $userModel = new UserModel();
             if ($userModel->getUserById($postData["email"])) {
-                echo "User already exists. Please log in.";
+                header("Location: http://localhost:3000/login", true, 409);
             } else {
                 $userModel->createUser($postData["username"], $postData["email"], $postData["password"]);
-                echo "Account has been successfully created.";
+                header("Location: http://localhost:3000/reviews", true, 201);
             }
         }
+        exit;
     }
 
     /* editAction enables the user to change their password by,
@@ -23,19 +30,20 @@ class UserController extends BaseController {
      */
     public function editAction () {
         $requestMethod = $_SERVER["REQUEST_METHOD"];
-        if (strtoupper ($requestMethod) == "UPDATE") {
+        if (strtoupper ($requestMethod) == "PATCH") {
             $postData = json_decode(file_get_contents("php://input"), true);
             $userModel = new UserModel();
             if ($userModel->verifyUserPassword($_SESSION["email"], $postData["oldpassword"])) {
                 if ($userModel->updateUserPassword($_SESSION["email"], $postData["newpassword"])) {
-                    echo "Your password has been successfully updated";
+                    header("Location: http://localhost:3000/login", true, 200);
                 } else {
-                    echo "There's was an error. Please try again.";
+                    http_response_code(500);
                 }
             } else {
-                echo "The password you entered is incorrect.";
+                http_response_code(401);
             }
         }
+        exit;
     }
 
     /* loginAction enables the user to log into their account by,
@@ -49,14 +57,15 @@ class UserController extends BaseController {
             $userModel = new UserModel();
             if ($userModel->getUserById($postData["email"])) {
                 if ($userModel->verifyUserPassword($postData['email'], $postData['password'])) {
-                    echo 'Login successful. You will be redirected shortly';
+                    header("Location: http://localhost:3000/review", true, 200);
                 } else {
-                    echo 'Password is incorrect. Please try again.';
+                    http_response_code(401);
                 }
             } else {
-                echo "User does not exist. Please sign up for an account.";
+                header("Location: http://localhost:3000/login", true, 404);
             }
         }
+        exit;
     }
 }
 
