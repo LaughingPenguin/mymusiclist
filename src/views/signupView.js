@@ -21,7 +21,7 @@ class SignUp extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault()
-        axios.post("http://localhost:8080/index.php/user/signup", this.state.data)
+        axios.post("http://localhost/index.php/user/signup", this.state.data)
             .then((response) => {
                 console.log('Form data submitted successfully', response)
             })
