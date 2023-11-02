@@ -54,7 +54,8 @@ class UserController extends BaseController {
             $userModel = new UserModel();
             if ($userModel->getUserByEmail($postData["email"])) {
                 if ($userModel->verifyUserPassword($postData['email'], $postData['password'])) {
-                    $jwt = generateJwtToken($postData['email']);
+                    $username = $userModel->getUsernameByEmail($postData['email']);
+                    $jwt = generateJwtToken($username);
                     header("Authorization: Bearer " .$jwt);
                 } else {
                     http_response_code(401);

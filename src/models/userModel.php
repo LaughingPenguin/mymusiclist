@@ -67,6 +67,22 @@ class UserModel extends Database {
         }
     }
 
+    public function getUsernameByEmail ($email) {
+        $sql = "SELECT username FROM users WHERE email = ?";
+        $checkUserQuery = $this->connection->prepare($sql);
+        $checkUserQuery->bind_param("s", $email);
+        if ($checkUserQuery->execute()) {
+            $result = $checkUserQuery->get_result();
+            if ($result->num_rows > 0) {
+                return $result->fetch_object()->username;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public function getUserByEmailUsername ($email, $username) {
         $sql = "SELECT id FROM users WHERE email = ? OR username = ?";
         $checkUserQuery = $this->connection->prepare($sql);
