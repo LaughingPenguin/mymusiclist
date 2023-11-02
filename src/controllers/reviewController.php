@@ -35,7 +35,7 @@ class ReviewController extends BaseController {
         if (strtoupper ($requestMethod) == "PUT") {
             $postData = json_decode(file_get_contents("php://input"), true);
             $reviewModel = new ReviewModel();
-                if ($reviewModel->updateReview($postData["id"], $postData["song"], $postData["artist"], $postData["rating"])){
+                if ($reviewModel->updateReview($postData["id"], $postData["rating"])){
                     echo "Review successfully updated.";
                 }
                 else {

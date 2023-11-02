@@ -27,6 +27,7 @@ export default function ReviewsPage() {
   const [singleReview, setSingleReview] = useState(singleReviewState)
   const handleRowClick = (rowData) => {
     setSingleReview(rowData);
+    setUpdateData(rowData);
   };
 
   // jwt for keeping track of current logged in user
@@ -35,10 +36,11 @@ export default function ReviewsPage() {
 
   // for updating the rating
   const [updateData, setUpdateData] = useState({
+    id: NaN,
     username: "",
     song: "",
     artist: "",
-    rating: 0,
+    rating: NaN,
   })
   const handleUpdateChange = (e) => {
     const { name, value } = e.target;
@@ -48,13 +50,15 @@ export default function ReviewsPage() {
     }));
   };
   const handleUpdate = (e) => {
+    console.log(updateData);
     e.preventDefault();
     axios
-      .post("http://localhost:8080/index.php/review/update", updateData)
+      .put("http://localhost:8080/index.php/review/update", updateData)
       .then((response) => {
         if (response.status === 200) {
           alert("Update successful!");
           console.log("Update successful", response);
+          window.location.reload();
         }
       })
       .catch((error) => {
@@ -140,24 +144,27 @@ export default function ReviewsPage() {
               <form>
                 <label className="text-muted mb-1">Song</label>
                 <input className="form-control mb-3"
+                       name="song"
                        type="text"
                        placeholder={singleReview.song}
-                       value={singleReview.song}
+                       value={updateData.song}
                        readOnly />
                 <label className="text-muted mb-1">Artist</label>
                 <input className="form-control mb-3"
+                       name="artist"
                        type="text"
                        placeholder={singleReview.artist}
                        value={singleReview.artist}
                        readOnly />
                 <label className="text-muted mb-1">Username</label>
                 <input className="form-control mb-3"
+                       name="username"
                        type="text"
                        placeholder={singleReview.username}
                        value={singleReview.username}
                        readOnly />
                 <label className="mb-1">Rating</label>
-                <select class="form-control" id="updatedrating" value={updateData.rating}>
+                <select className="form-control" type="int" name="rating" onChange={handleUpdateChange} id="updatedrating">
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
@@ -167,8 +174,8 @@ export default function ReviewsPage() {
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary" onClick={handleUpdate}>Submit</button>
-              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button className="btn btn-primary" data-bs-dismiss="modal" onClick={handleUpdate}>Submit</button>
+              <button className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>

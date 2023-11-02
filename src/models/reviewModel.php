@@ -14,10 +14,10 @@ class ReviewModel extends Database {
         }
     }
 
-    public function updateReview ($id, $song, $artist, $rating) {
-        $sql = "UPDATE ratings SET song = ?, artist = ?, rating = ? WHERE id = ?";
+    public function updateReview ($id, $rating) {
+        $sql = "UPDATE ratings SET rating = ? WHERE id = ?";
         $stmt = $this->connection->prepare($sql);
-        $stmt->bind_param("ssii", $song, $artist, $rating, $id);
+        $stmt->bind_param("ii", $rating, $id);
         if ($stmt->execute()){
             return true;
         }
@@ -44,9 +44,9 @@ class ReviewModel extends Database {
         if ($result) {
             $reviews = array();
             while ($row = mysqli_fetch_assoc($result)) {
-                $reviews[] = $row; // Add each row as an associative array to the $reviews array
+                $reviews[] = $row;
             }
-            mysqli_free_result($result); // Free the result set
+            mysqli_free_result($result);
             return $reviews;
         } else {
             return false;
