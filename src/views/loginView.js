@@ -27,7 +27,12 @@ function Login() {
         }
       })
       .catch((error) => {
-        console.error("Error submitting form data", error);
+        if (response.status === 401) {
+          console.error("Incorrect credentials", error);
+        } else if (response.status === 404) {
+          console.error("Account does not exist", error);
+          navigate("/signup", { replace: true });
+        }
       });
   };
   return (
