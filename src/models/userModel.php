@@ -27,7 +27,7 @@ class UserModel extends Database {
     }
 
     public function verifyUserPassword ($email, $password) {
-        $sql = "SELECT * FROM users WHERE username = ?";
+        $sql = "SELECT * FROM users WHERE email = ?";
         $verifyUserQuery = $this->connection->prepare($sql);
         $verifyUserQuery->bind_param("s", $email);
         $verifyUserQuery->execute();
@@ -58,7 +58,9 @@ class UserModel extends Database {
         if ($checkUserQuery->execute()) {
             $result = $checkUserQuery->get_result();
             if ($result->num_rows > 0) {
-                return $result->fetch_assoc();
+                return true;
+            } else {
+                return false;
             }
         } else {
             return false;
@@ -72,7 +74,9 @@ class UserModel extends Database {
         if ($checkUserQuery->execute()) {
             $result = $checkUserQuery->get_result();
             if ($result->num_rows > 0) {
-                return $result->fetch_assoc();
+                return true;
+            } else {
+                return false;
             }
         } else {
             return false;
