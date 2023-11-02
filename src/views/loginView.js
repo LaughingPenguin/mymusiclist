@@ -21,7 +21,7 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost/index.php/user/login", this.state.data)
+      .post("http://localhost:8080/index.php/user/login", this.state.data)
       .then((response) => {
         console.log("Form data submitted successfully", response);
       })
@@ -32,7 +32,7 @@ class Login extends Component {
   render() {
     return (
       <body class="text-center d-flex flex-column justify-content-center bg-Platinum">
-        <form class="form-signin">
+        <form class="form-signin" onSubmit={this.handleSubmit}>
           <h1 class="h1 mb-5">mymusiclist</h1>
           <h1 class="h3 mb-3">Please login</h1>
           <input
