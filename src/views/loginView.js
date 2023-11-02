@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
 
@@ -27,9 +27,9 @@ function Login() {
         }
       })
       .catch((error) => {
-        if (response.status === 401) {
+        if (error.status === 401) {
           console.error("Incorrect credentials", error);
-        } else if (response.status === 404) {
+        } else if (error.status === 404) {
           console.error("Account does not exist", error);
           navigate("/signup", { replace: true });
         }
@@ -59,6 +59,7 @@ function Login() {
         <button className="btn btn-lg btn-primary border-0 mt-1" type="submit">
           Login
         </button>
+        <p className="text-muted mt-4 pb-lg-2">Don't have an account? <Link to="/signup">Register here</Link></p>
       </form>
     </div>
   );

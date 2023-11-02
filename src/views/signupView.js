@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './signup.css';
 
@@ -64,6 +64,7 @@ function SignUp() {
             <button className="btn btn-lg btn-primary border-0 mt-1" type="submit">
                 Sign Up
             </button>
+            <p className="text-muted mt-4 pb-lg-2">Already have an account? <Link to="/login">Login here</Link></p>
             </form>
         </div>
     );
