@@ -1,5 +1,5 @@
 <?php
-
+require '../middleware/token.php';
 class UserController extends BaseController {
     /* signupAction allows the user to create an account by,
     * checking if the request method is a POST request from the client,
@@ -57,7 +57,8 @@ class UserController extends BaseController {
             $userModel = new UserModel();
             if ($userModel->getUserByEmail($postData["email"])) {
                 if ($userModel->verifyUserPassword($postData['email'], $postData['password'])) {
-                    header("Location: http://localhost:3000/review", true, 200);
+                    $jwt = generateJwtToken($postData['email']);
+                    header("Authorization: Bearer " .$jwt);
                 } else {
                     http_response_code(401);
                 }
