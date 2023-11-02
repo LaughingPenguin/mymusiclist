@@ -8,7 +8,7 @@ import FrequentQuestions from '../components/frequentQuestions';
 
 const Home = () => {
     return (
-        <div>
+        <div id="home-section">
             <NavBar />
             <Hero />
             <HeroTwo />

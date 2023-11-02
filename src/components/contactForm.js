@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ContactForm = () => {
     return (
-        <div class="container pt-5 my-5">
+        <div class="container pt-5 my-5" id="contact-section">
             <div class="row pt-lg-5 pb-lg-3">
                     <h1 class="display-5 fw-bold lh-1">Contact Us</h1>
                     <p class="lead">We're here to hear from you! Whether you have questions,
