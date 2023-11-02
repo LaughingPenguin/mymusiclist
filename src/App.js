@@ -1,13 +1,19 @@
+import { Router, Switch } from 'react-router-dom'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import NavBar from "./components/navbar"
+import Home from './views/homeView'
+import Login from './views/loginView'
+import SignUp from './views/signupView'
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <NavBar />
-    </div>
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/login" componenet={Login} />
+      <Route path="/signup" componenet={SignUp} />
+      <Route path="/reviews" componenet={Review} />
+    </Switch>
   );
 }
 
