@@ -2,7 +2,7 @@ import React from "react";
 
 const FrequentQuestions = () => {
     return (
-        <div class="container-sm pt-5 my-5 text-center">
+        <div class="container-sm pt-5 my-5 text-center" id="faqs-section">
             <h1 class="display-5 fw-bold">Frequently Asked Question</h1>
             <div class="question-container">
                 <details class="question">

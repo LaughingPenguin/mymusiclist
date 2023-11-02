@@ -12,7 +12,7 @@ class ReviewModel extends Database {
         else {
             return false;
         }
-    }   
+    }
 
     public function updateReview ($id, $song, $artist, $rating) {
         $sql = "UPDATE ratings SET song = ?, artist = ?, rating = ? WHERE id = ?";
@@ -41,7 +41,16 @@ class ReviewModel extends Database {
     public function getReviews () {
         $sql = "SELECT username, song, artist, rating FROM ratings";
         $result = mysqli_query($this->connection, $sql);
-        return $result;
+        if ($result) {
+            $data = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $reviews[] = $row; // Add each row as an associative array to the $reviews array
+            }
+            mysqli_free_result($result); // Free the result set
+            return $reviews;
+        } else {
+            return false;
+        }
     }
 
     public function getReviewById ($username, $song, $artist) {
