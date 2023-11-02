@@ -1,67 +1,73 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
 
-class Login extends Component {
-  state = {
-    data: {
-      email: "",
-      password: "",
-    },
-  };
-  handleChange = (e) => {
+function Login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState((prevState) => ({
-      data: {
-        ...prevState.data,
-        [name]: value,
-      },
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
     }));
   };
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost/index.php/user/login", this.state.data)
+      .post("http://localhost:8080/index.php/user/login", formData)
       .then((response) => {
-        const authorizationHeader = response.headers.authorization;
-        const [, token] = authorizationHeader.split('Bearer ');
-        localStorage.setItem("token", token);
-        setAuthToken(token);
-        console.log("Form data submitted successfully", response);
+        if (response.status === 200) {
+          if (response.headers.authorization) {
+            const authorizationHeader = response.headers.authorization;
+            const [, token] = authorizationHeader.split('Bearer ');
+            localStorage.setItem("token", token);
+          }
+          console.log("Login successful", response);
+          navigate("/reviews", { replace: true });
+        }
       })
       .catch((error) => {
-        console.error("Error submitting form data", error);
+        if (error.status === 401) {
+          console.log("Incorrect credentials", error);
+        } else if (error.status === 404) {
+          console.log("Account does not exist", error);
+          navigate("/signup", { replace: true });
+        }
       });
   };
-  render() {
-    return (
-      <body class="text-center d-flex flex-column justify-content-center bg-Platinum">
-        <form class="form-signin">
-          <h1 class="h1 mb-5">mymusiclist</h1>
-          <h1 class="h3 mb-3">Please login</h1>
-          <input
-            type="email"
-            name="email"
-            class="form-control"
-            placeholder="Email address"
-            value={this.state.data.email}
-            onChange={this.handleChange}
-          />
-          <input
-            type="password"
-            name="password"
-            class="form-control"
-            placeholder="Password"
-            value={this.state.data.password}
-            onChange={this.handleChange}
-          />
-          <button class="btn btn-lg btn-primary border-0 mt-1" type="submit">
-            Login
-          </button>
-        </form>
-      </body>
-    );
-  }
+  return (
+    <div className="text-center d-flex flex-column justify-content-center vh-100 bg-Platinum">
+      <form className="form-signin" onSubmit={handleSubmit}>
+        <h1 className="h1 mb-5">mymusiclist</h1>
+        <h1 className="h3 mb-3">Please login</h1>
+        <input
+          type="email"
+          name="email"
+          className="form-control"
+          placeholder="Email address"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          name="password"
+          className="form-control"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <button className="btn btn-lg btn-primary border-0 mt-1" type="submit">
+          Login
+        </button>
+        <p className="text-muted mt-4 pb-lg-2">Don't have an account? <Link to="/signup">Register here</Link></p>
+      </form>
+    </div>
+  );
 }
 
 export default Login;

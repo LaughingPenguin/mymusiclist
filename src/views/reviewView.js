@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import NavBar from '../components/navbar';
 
 export default function ReviewsPage() {
@@ -24,7 +25,8 @@ export default function ReviewsPage() {
   const handleRowClick = (rowData) => {
     setSingleReview(rowData);
   };
-
+  const storedToken = localStorage.getItem("token");
+  const decoded = jwtDecode(storedToken);
   return review.loading ? (
     <div><h1 class="display-3 text-center">Loading...</h1></div>
   ) : (
@@ -57,7 +59,13 @@ export default function ReviewsPage() {
                 </td>
                 <td>{review.artist}</td>
                 <td>{review.rating}</td>
-                <td></td>
+                <td>{review.username === decoded["user_id"] && (
+                      <>
+                      <button href="" className="btn btn-success"></button>
+                      <button href="" className="btn btn-success"> Delete </button>
+                      </>
+                    )}
+                </td>
               </tr>
             ))}
           </tbody>

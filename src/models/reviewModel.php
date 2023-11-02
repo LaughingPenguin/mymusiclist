@@ -39,10 +39,10 @@ class ReviewModel extends Database {
     }
 
     public function getReviews () {
-        $sql = "SELECT username, song, artist, rating FROM ratings";
+        $sql = "SELECT * FROM ratings";
         $result = mysqli_query($this->connection, $sql);
         if ($result) {
-            $data = array();
+            $reviews = array();
             while ($row = mysqli_fetch_assoc($result)) {
                 $reviews[] = $row; // Add each row as an associative array to the $reviews array
             }
