@@ -27,16 +27,19 @@ const NavBar = () => {
                     <div className="collapse navbar-collapse" id="hamburger">
                         <ul className="navbar-nav d-flex text-center me-auto">
                             <li className="nav-item me-3 me-lg-0">
-                                <a className="nav-link" href="/#home-section"> Home </a>
+                                <Link to="/" className="nav-link"> Home </Link>
                             </li>
                             <li className="nav-item me-3 me-lg-0">
-                                <a className="nav-link" href="/#charts-section"> Charts </a>
+                                <Link to="/#charts-section" className="nav-link"> Charts </Link>
                             </li>
                             <li className="nav-item me-3 me-lg-0">
-                                <a className="nav-link" href="/#faqs-section"> FAQs </a>
+                                <Link to="/#faqs-section" className="nav-link"> FAQs </Link>
                             </li>
                             <li className="nav-item me-3 me-lg-0">
-                                <a className="nav-link" href="/#contact-section"> Contact </a>
+                                <Link to="/#contact-section" className="nav-link"> Contact </Link>
+                            </li>
+                            <li className="nav-item me-3 me-lg-0">
+                                <Link to="/reviews" className="nav-link"> Reviews </Link>
                             </li>
                             <li className="nav-item me-3 me-lg-0">
                                 <a className="nav-link" type="button" onClick={logout}> Log Out </a>
@@ -68,16 +71,19 @@ const NavBar = () => {
                     <div className="collapse navbar-collapse" id="hamburger">
                         <ul className="navbar-nav d-flex text-center me-auto">
                             <li className="nav-item me-3 me-lg-0">
-                                <a className="nav-link" href="/#home-section"> Home </a>
+                                <Link to="/" className="nav-link"> Home </Link>
                             </li>
                             <li className="nav-item me-3 me-lg-0">
-                                <a className="nav-link" href="/#charts-section"> Charts </a>
+                                <Link to="/#charts-section" className="nav-link"> Charts </Link>
                             </li>
                             <li className="nav-item me-3 me-lg-0">
-                                <a className="nav-link" href="/#faqs-section"> FAQs </a>
+                                <Link to="/#faqs-section" className="nav-link"> FAQs </Link>
                             </li>
                             <li className="nav-item me-3 me-lg-0">
-                                <a className="nav-link" href="/#contact-section"> Contact </a>
+                                <Link to="/#contact-section" className="nav-link"> Contact </Link>
+                            </li>
+                            <li className="nav-item me-3 me-lg-0">
+                                <Link to="/reviews" className="nav-link"> Reviews </Link>
                             </li>
                             <li className="nav-item me-3 me-lg-0">
                                 <LinkContainer to="/login"><a className="nav-link" type="button"> Login/SignUp </a></LinkContainer>
