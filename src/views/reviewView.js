@@ -218,7 +218,7 @@ export default function ReviewsPage() {
           </label>
         </div>
         <button
-          class="btn btn-sm btn-primary border-0 mt-1 rate-btn"
+          class="btn btn-sm btn-primary border-0 mx-3 mt-1 rate-btn"
           type="submit"
         >
           Submit
