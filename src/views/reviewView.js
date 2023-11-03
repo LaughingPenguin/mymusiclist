@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import NavBar from "../components/navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./reviewView.css";
 import {
   starrating5,
   starrating4,
@@ -75,6 +77,37 @@ export default function ReviewsPage() {
       });
   };
 
+  // for the create reviews form
+  const [formData, setFormData] = useState({
+    username: decoded["user_id"],
+    song: "",
+    artist: "",
+    rating: NaN,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:8080/index.php/review/create", formData)
+      .then((response) => {
+        console.log("Form data submitted successfully", response);
+        window.location.reload();
+      })
+      .catch((error) => {
+        if (error.status === 409) {
+          console.error("Error submitting form data", error);
+        }
+      });
+  };
+
   // for deleting the rating
   const [deleteData, setDeleteData] = useState({
     id: NaN,
@@ -94,7 +127,7 @@ export default function ReviewsPage() {
         if (response.status === 200) {
           alert("Deletion successful.");
           console.log("Deletion successful", response);
-          window.location.reload();
+          //          window.location.reload();
         }
       })
       .catch((error) => {
@@ -109,6 +142,89 @@ export default function ReviewsPage() {
   ) : (
     <div>
       <NavBar />
+      <form className="create-review-form" onSubmit={handleSubmit}>
+        <h1>Create a Review</h1>
+        <input
+          type="text"
+          placeholder="song"
+          value={formData.song}
+          name="song"
+          className="form-control"
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          placeholder="artist"
+          value={formData.artist}
+          name="artist"
+          className="form-control"
+          onChange={handleChange}
+        />
+        <div class="rating">
+          <input
+            type="radio"
+            name="rating"
+            id="star1"
+            value="5"
+            className="rating-input"
+            onChange={handleChange}
+          />
+          <label class="star-label" for="star1">
+            <FontAwesomeIcon class="star" icon="fas fa-star" />
+          </label>
+          <input
+            type="radio"
+            name="rating"
+            id="star2"
+            value="4"
+            className="rating-input"
+            onChange={handleChange}
+          />
+          <label class="star-label" for="star2">
+            <FontAwesomeIcon class="star" icon="fas fa-star" />
+          </label>
+          <input
+            type="radio"
+            name="rating"
+            id="star3"
+            value="3"
+            className="rating-input"
+            onChange={handleChange}
+          />
+          <label class="star-label" for="star3">
+            <FontAwesomeIcon class="star" icon="fas fa-star" />
+          </label>
+          <input
+            type="radio"
+            name="rating"
+            id="star4"
+            value="2"
+            className="rating-input"
+            onChange={handleChange}
+          />
+          <label class="star-label" for="star4">
+            <FontAwesomeIcon class="star" icon="fas fa-star" />
+          </label>
+          <input
+            type="radio"
+            name="rating"
+            id="star5"
+            value="1"
+            className="rating-input"
+            onChange={handleChange}
+          />
+          <label class="star-label" for="star5">
+            <FontAwesomeIcon class="star" icon="fas fa-star" />
+          </label>
+        </div>
+        <button
+          class="btn btn-sm btn-primary border-0 mt-1 rate-btn"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+
       <div className="container-lg pt-5">
         <h1 className="display-5 fw-bold">Ratings</h1>
         <p className="lead mb-4">See all the ratings here!</p>
@@ -140,6 +256,7 @@ export default function ReviewsPage() {
                   {review.song}
                 </td>
                 <td>{review.artist}</td>
+                <td>{review.rating}</td>
                 <td>
                   {review.rating === "1" && (
                     <img
