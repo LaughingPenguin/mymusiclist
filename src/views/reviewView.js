@@ -127,7 +127,7 @@ export default function ReviewsPage() {
         if (response.status === 200) {
           alert("Deletion successful.");
           console.log("Deletion successful", response);
-          //          window.location.reload();
+          window.location.reload();
         }
       })
       .catch((error) => {
@@ -143,13 +143,13 @@ export default function ReviewsPage() {
     <div>
       <NavBar />
       <form className="create-review-form" onSubmit={handleSubmit}>
-        <h1>Create a Review</h1>
+        <h1 class="display-5 mb-3">Create a Review</h1>
         <input
           type="text"
           placeholder="song"
           value={formData.song}
           name="song"
-          className="form-control"
+          className="form-control bd-1"
           onChange={handleChange}
         />
         <input
@@ -157,7 +157,7 @@ export default function ReviewsPage() {
           placeholder="artist"
           value={formData.artist}
           name="artist"
-          className="form-control"
+          className="form-control mb-2"
           onChange={handleChange}
         />
         <div class="rating">
@@ -256,7 +256,6 @@ export default function ReviewsPage() {
                   {review.song}
                 </td>
                 <td>{review.artist}</td>
-                <td>{review.rating}</td>
                 <td>
                   {review.rating === "1" && (
                     <img
@@ -298,7 +297,7 @@ export default function ReviewsPage() {
                   {review.username === decoded["user_id"] && (
                     <div>
                       <button
-                        className="badge badge-success mx-1"
+                        className="badge bg-success mx-1"
                         data-bs-toggle="modal"
                         data-bs-target="#updaterating"
                         onClick={() => handleRowClick(review)}
@@ -306,7 +305,7 @@ export default function ReviewsPage() {
                         Update
                       </button>
                       <button
-                        className="badge badge-danger mx-1"
+                        className="badge bg-danger mx-1"
                         data-bs-toggle="modal"
                         data-bs-target="#deleterating"
                         onClick={() => handleRowClick(review)}
