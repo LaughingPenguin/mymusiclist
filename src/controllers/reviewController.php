@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class ReviewController extends BaseController {
     /* createAction allows the user to create a new review by,
@@ -6,7 +6,7 @@ class ReviewController extends BaseController {
     * extracting the json file for username, song, artist, and rating,
     * checking if the combination of username, song, and artist already exists,
     * and adding the new review to the review model.
-    */ 
+    */
     public function createAction () {
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         if (strtoupper ($requestMethod) == "POST") {
@@ -24,9 +24,9 @@ class ReviewController extends BaseController {
     public function readAction () {
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         if (strtoupper ($requestMethod) == "GET") {
-            $postData = json_decode(file_get_contents("php://input"), true);
             $reviewModel = new ReviewModel();
-            $reviewModel->getReviews();
+            $data = $reviewModel->getReviews();
+            echo json_encode($data);
         }
     }
 
@@ -35,7 +35,7 @@ class ReviewController extends BaseController {
         if (strtoupper ($requestMethod) == "PUT") {
             $postData = json_decode(file_get_contents("php://input"), true);
             $reviewModel = new ReviewModel();
-                if ($reviewModel->updateReview($postData["id"], $postData["song"], $postData["artist"], $postData["rating"])){
+                if ($reviewModel->updateReview($postData["id"], $postData["rating"])){
                     echo "Review successfully updated.";
                 }
                 else {
@@ -49,7 +49,7 @@ class ReviewController extends BaseController {
         if (strtoupper ($requestMethod) == "DELETE") {
             $postData = json_decode(file_get_contents("php://input"), true);
             $reviewModel = new ReviewModel();
-            if ($reviewModel->getReviewById($postData["username"], $postData["song"], $postData["artist"])){
+            if ($reviewModel->getReviewById($postData["username"], $postData["song"], $postData["artist"]) == $postData["id"]){
                 if ($reviewModel->deleteReview($postData["id"])){
                     echo "Review successfully deleted.";
                 }
@@ -58,7 +58,7 @@ class ReviewController extends BaseController {
                 }
             }
             else{
-            echo "could not find review.";
+                echo "could not find review.";
             }
         }
     }

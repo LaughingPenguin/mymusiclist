@@ -22,15 +22,20 @@ function Login() {
       .post("http://localhost:8080/index.php/user/login", formData)
       .then((response) => {
         if (response.status === 200) {
+          if (response.headers.authorization) {
+            const authorizationHeader = response.headers.authorization;
+            const [, token] = authorizationHeader.split('Bearer ');
+            localStorage.setItem("token", token);
+          }
           console.log("Login successful", response);
           navigate("/reviews", { replace: true });
         }
       })
       .catch((error) => {
         if (error.status === 401) {
-          console.error("Incorrect credentials", error);
+          console.log("Incorrect credentials", error);
         } else if (error.status === 404) {
-          console.error("Account does not exist", error);
+          console.log("Account does not exist", error);
           navigate("/signup", { replace: true });
         }
       });
