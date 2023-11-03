@@ -4,6 +4,13 @@ import { jwtDecode } from "jwt-decode";
 import NavBar from "../components/navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./reviewView.css";
+import {
+  starrating5,
+  starrating4,
+  starrating3,
+  starrating2,
+  starrating1,
+} from "../components";
 
 export default function ReviewsPage() {
   // for populating the table and keeping track of individual row elements
@@ -250,6 +257,43 @@ export default function ReviewsPage() {
                 </td>
                 <td>{review.artist}</td>
                 <td>{review.rating}</td>
+                <td>
+                  {review.rating === "1" && (
+                    <img
+                      className="rate"
+                      src={starrating1}
+                      alt={review.rating}
+                    />
+                  )}
+                  {review.rating === "2" && (
+                    <img
+                      className="rate"
+                      src={starrating2}
+                      alt={review.rating}
+                    />
+                  )}
+                  {review.rating === "3" && (
+                    <img
+                      className="rate"
+                      src={starrating3}
+                      alt={review.rating}
+                    />
+                  )}
+                  {review.rating === "4" && (
+                    <img
+                      className="rate"
+                      src={starrating4}
+                      alt={review.rating}
+                    />
+                  )}
+                  {review.rating === "5" && (
+                    <img
+                      className="rate"
+                      src={starrating5}
+                      alt={review.rating}
+                    />
+                  )}
+                </td>
                 <td>
                   {review.username === decoded["user_id"] && (
                     <div>

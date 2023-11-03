@@ -5,6 +5,7 @@ import Home from './views/homeView'
 import Login from './views/loginView'
 import SignUp from './views/signupView'
 import ReviewsPage from './views/reviewView'
+import PrivateRoute from './middleware/privateRoute'
 import './App.css';
 
 function App() {
@@ -14,7 +15,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/reviews" element={<ReviewsPage />} />
+        <Route
+          path="/reviews"
+          element={
+            <PrivateRoute>
+              <ReviewsPage />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </div>
   );

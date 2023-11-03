@@ -4,7 +4,7 @@ import { starrating35, starrating4, starrating45, goodybagsong,
 
 const TopCharts = () => {
     return (
-        <div class="container-md pt-5 my-5" id="charts-section">
+        <div class="container pt-5 my-5" id="charts-section">
             <h1 class="display-5 fw-bold lh-1 text-center">Charts</h1>
             <div class="col-lg-6 mx-auto text-center">
                 <p class="lead mb-4">Here are what our users say are the songs you should listen to!</p>
