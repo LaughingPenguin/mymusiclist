@@ -13,7 +13,7 @@
 
 # misc
 */.DS_Store
-/vendor
+/vendor/
 src/models/.DS_Store
 .DS_Store
 .env
