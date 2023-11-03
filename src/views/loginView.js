@@ -24,7 +24,7 @@ function Login() {
         if (response.status === 200) {
           if (response.headers.authorization) {
             const authorizationHeader = response.headers.authorization;
-            const [, token] = authorizationHeader.split('Bearer ');
+            const [, token] = authorizationHeader.split("Bearer ");
             localStorage.setItem("token", token);
           }
           console.log("Login successful", response);
@@ -64,7 +64,12 @@ function Login() {
         <button className="btn btn-lg btn-primary border-0 mt-1" type="submit">
           Login
         </button>
-        <p className="text-muted mt-4 pb-lg-2">Don't have an account? <Link to="/signup">Register here</Link></p>
+        <p className="text-muted mt-4 pb-lg-2">
+          Don't have an account? <Link to="/signup">Register here</Link>
+        </p>
+        <p className="text-muted mt-4 pb-lg-2">
+          Back to Home Page <Link to="/">Go back</Link>
+        </p>
       </form>
     </div>
   );
