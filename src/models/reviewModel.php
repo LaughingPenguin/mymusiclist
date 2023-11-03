@@ -60,7 +60,7 @@ class ReviewModel extends Database {
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             if ($result->num_rows > 0){
-                return $result->fetch_assoc();
+                return $result->fetch_object()->id;
             }
             else {
                 return false;

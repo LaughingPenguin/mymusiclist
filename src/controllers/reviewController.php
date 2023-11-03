@@ -49,7 +49,7 @@ class ReviewController extends BaseController {
         if (strtoupper ($requestMethod) == "DELETE") {
             $postData = json_decode(file_get_contents("php://input"), true);
             $reviewModel = new ReviewModel();
-            if ($reviewModel->getReviewById($postData["username"], $postData["song"], $postData["artist"])){
+            if ($reviewModel->getReviewById($postData["username"], $postData["song"], $postData["artist"]) == $postData["id"]){
                 if ($reviewModel->deleteReview($postData["id"])){
                     echo "Review successfully deleted.";
                 }
@@ -58,7 +58,7 @@ class ReviewController extends BaseController {
                 }
             }
             else{
-            echo "could not find review.";
+                echo "could not find review.";
             }
         }
     }

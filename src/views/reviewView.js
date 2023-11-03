@@ -28,6 +28,7 @@ export default function ReviewsPage() {
   const handleRowClick = (rowData) => {
     setSingleReview(rowData);
     setUpdateData(rowData);
+    setDeleteData(rowData);
   };
 
   // jwt for keeping track of current logged in user
@@ -50,7 +51,6 @@ export default function ReviewsPage() {
     }));
   };
   const handleUpdate = (e) => {
-    console.log(updateData);
     e.preventDefault();
     axios
       .put("http://localhost:8080/index.php/review/update", updateData)
@@ -63,6 +63,31 @@ export default function ReviewsPage() {
       })
       .catch((error) => {
         console.log("Update failed", error);
+      });
+  };
+
+  // for deleting the rating
+  const [deleteData, setDeleteData] = useState({
+    id: NaN,
+    username: "",
+    song: "",
+    artist: "",
+    rating: NaN,
+  });
+  const handleDelete = (e) => {
+    e.preventDefault();
+    console.log(deleteData);
+    axios
+      .delete("http://localhost:8080/index.php/review/delete", { data: deleteData })
+      .then((response) => {
+        if (response.status === 200) {
+          alert("Deletion successful.");
+          console.log("Deletion successful", response);
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        console.log("Deletion failed", error);
       });
   };
 
@@ -106,7 +131,12 @@ export default function ReviewsPage() {
                         data-bs-target="#updaterating"
                         onClick={() => handleRowClick(review)}>Update
                       </button>
-                      <button className="badge badge-danger mx-1">Delete</button>
+                      <button
+                        className="badge badge-danger mx-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleterating"
+                        onClick={() => handleRowClick(review)}>Delete
+                      </button>
                     </div>
                     )}
                 </td>
@@ -115,12 +145,12 @@ export default function ReviewsPage() {
           </tbody>
         </table>
       </div>
+
       <div className="modal fade" id="songinfo" aria-labelledby="songinfoLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="songinfoLabel">{singleReview.song}</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <p>Artist: {singleReview.artist}</p>
@@ -133,12 +163,12 @@ export default function ReviewsPage() {
           </div>
         </div>
       </div>
+
       <div className="modal fade" id="updaterating" aria-labelledby="updateratingLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="updateratingLabel">Update your rating for {singleReview.song}</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <form>
@@ -176,6 +206,20 @@ export default function ReviewsPage() {
             <div className="modal-footer">
               <button className="btn btn-primary" data-bs-dismiss="modal" onClick={handleUpdate}>Submit</button>
               <button className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="modal fade" id="deleterating" aria-labelledby="deleteratingLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-body">
+              <p/>Are you sure that you want to delete your rating for {singleReview.song} by {singleReview.artist}?
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-danger" data-bs-dismiss="modal" onClick={handleDelete}>Yes</button>
+              <button className="btn btn-primary" data-bs-dismiss="modal">No</button>
             </div>
           </div>
         </div>
