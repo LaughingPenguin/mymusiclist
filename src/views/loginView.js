@@ -52,6 +52,8 @@ function Login() {
           placeholder="Email address"
           value={formData.email}
           onChange={handleChange}
+          autoFocus
+          required
         />
         <input
           type="password"
@@ -60,6 +62,7 @@ function Login() {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
+          required
         />
         <button className="btn btn-lg btn-primary border-0 mt-1" type="submit">
           Login
