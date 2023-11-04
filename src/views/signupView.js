@@ -6,11 +6,13 @@ import './signup.css';
 
 function SignUp() {
     const navigate = useNavigate();
+    // hold user registration input values
     const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
     });
+    // handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -32,6 +34,7 @@ function SignUp() {
                 }
             })
             .catch((error) => {
+                // case where the account already exists
                 if (error.response.status === 409) {
                     console.log("Account already exists", error);
                     toast.error("Username or account already exists", {
