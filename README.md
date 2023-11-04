@@ -89,7 +89,7 @@ In `htdocs/inc/bootstrap.php`, replace `require_once PROJECT_ROOT_PATH . "../mid
 require_once PROJECT_ROOT_PATH . "/middleware/token.php";
 ```
 
-Make sure that `/vendors` are `/node_modules` are present in the root directory. They are created as part of installing the dependencies specified in package.json and composer.json.
+Make sure that `/vendor` is present in your `/htdocs` directory and `/node_modules` is present in the root directory. They are created as part of installing the dependencies specified in package.json and composer.json.
 
 To start mymusiclist, run in the root folder:
 
