@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { toast } from 'react-hot-toast';
 import NavBar from "../components/navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./reviewView.css";
@@ -52,7 +53,7 @@ export default function ReviewsPage() {
     username: "",
     song: "",
     artist: "",
-    rating: NaN,
+    rating: 1,
   });
   const handleUpdateChange = (e) => {
     const { name, value } = e.target;
@@ -67,12 +68,19 @@ export default function ReviewsPage() {
       .put("http://localhost:8080/index.php/review/update", updateData)
       .then((response) => {
         if (response.status === 200) {
-          alert("Update successful!");
+          toast.success("Update successful", {
+            duration: 1500,
+            position: 'top-right',
+          });
           console.log("Update successful", response);
-          window.location.reload();
+          setTimeout(() => window.location.reload(), 1500);
         }
       })
       .catch((error) => {
+        toast.error("Update failed", {
+          duration: 2000,
+          position: 'top-right',
+        });
         console.log("Update failed", error);
       });
   };
@@ -98,13 +106,28 @@ export default function ReviewsPage() {
     axios
       .post("http://localhost:8080/index.php/review/create", formData)
       .then((response) => {
-        console.log("Form data submitted successfully", response);
-        window.location.reload();
+        if (response.status === 200) {
+          toast.success("Create successful", {
+            duration: 1500,
+            position: 'top-right',
+          });
+          console.log("Create successful", response);
+          setTimeout(() => window.location.reload(), 1500);
+        }
       })
       .catch((error) => {
-        if (error.status === 409) {
-          console.error("Error submitting form data", error);
+        if (error.response.status === 409) {
+          toast.error("You have already created a review for this song", {
+            duration: 2000,
+            position: 'top-right',
+          });
+        } else {
+          toast.error("Create failed", {
+            duration: 2000,
+            position: 'top-right',
+          });
         }
+        console.error(error);
       });
   };
 
@@ -125,25 +148,39 @@ export default function ReviewsPage() {
       })
       .then((response) => {
         if (response.status === 200) {
-          alert("Deletion successful.");
-          console.log("Deletion successful", response);
-          window.location.reload();
+          toast.success("Delete successful", {
+            duration: 1500,
+            position: 'top-right',
+          });
+          console.log("Delete successful", response);
+          setTimeout(() => window.location.reload(), 1500);
         }
       })
       .catch((error) => {
-        console.log("Deletion failed", error);
+        if (error.response.status === 404) {
+          toast.error("The review you tried to delete does not exist", {
+            duration: 2000,
+            position: 'top-right',
+          });
+        } else {
+          toast.error("Delete failed", {
+            duration: 2000,
+            position: 'top-right',
+          });
+        }
+        console.log(error);
       });
   };
 
   return review.loading ? (
     <div>
-      <h1 class="display-3 text-center">Loading...</h1>
+      <h1 className="display-3 text-center">Loading...</h1>
     </div>
   ) : (
     <div>
       <NavBar />
       <form className="create-review-form" onSubmit={handleSubmit}>
-        <h1 class="display-5 mb-3">Create a Review</h1>
+        <h1 className="display-5 mb-3">Create a Review</h1>
         <input
           type="text"
           placeholder="song"
@@ -160,7 +197,7 @@ export default function ReviewsPage() {
           className="form-control mb-2"
           onChange={handleChange}
         />
-        <div class="rating">
+        <div className="rating">
           <input
             type="radio"
             name="rating"
@@ -169,7 +206,7 @@ export default function ReviewsPage() {
             className="rating-input"
             onChange={handleChange}
           />
-          <label class="star-label" for="star1">
+          <label className="star-label" htmlFor="star1">
             <FontAwesomeIcon class="star" icon="fas fa-star" />
           </label>
           <input
@@ -180,7 +217,7 @@ export default function ReviewsPage() {
             className="rating-input"
             onChange={handleChange}
           />
-          <label class="star-label" for="star2">
+          <label className="star-label" htmlFor="star2">
             <FontAwesomeIcon class="star" icon="fas fa-star" />
           </label>
           <input
@@ -191,7 +228,7 @@ export default function ReviewsPage() {
             className="rating-input"
             onChange={handleChange}
           />
-          <label class="star-label" for="star3">
+          <label className="star-label" htmlFor="star3">
             <FontAwesomeIcon class="star" icon="fas fa-star" />
           </label>
           <input
@@ -202,7 +239,7 @@ export default function ReviewsPage() {
             className="rating-input"
             onChange={handleChange}
           />
-          <label class="star-label" for="star4">
+          <label className="star-label" htmlFor="star4">
             <FontAwesomeIcon class="star" icon="fas fa-star" />
           </label>
           <input
@@ -213,12 +250,12 @@ export default function ReviewsPage() {
             className="rating-input"
             onChange={handleChange}
           />
-          <label class="star-label" for="star5">
+          <label className="star-label" htmlFor="star5">
             <FontAwesomeIcon class="star" icon="fas fa-star" />
           </label>
         </div>
         <button
-          class="btn btn-sm btn-primary border-0 mx-3 mt-1 rate-btn"
+          className="btn btn-sm btn-primary border-0 mx-3 mt-1 rate-btn"
           type="submit"
         >
           Submit
@@ -402,11 +439,11 @@ export default function ReviewsPage() {
                   onChange={handleUpdateChange}
                   id="updatedrating"
                 >
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
                 </select>
               </form>
             </div>

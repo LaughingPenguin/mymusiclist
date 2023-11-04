@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from 'react-hot-toast';
 import axios from "axios";
 import "./login.css";
 
@@ -27,16 +28,27 @@ function Login() {
             const [, token] = authorizationHeader.split('Bearer ');
             localStorage.setItem("token", token);
           }
-          console.log("Login successful", response);
-          navigate("/reviews", { replace: true });
+          toast.success("Login successful", {
+            duration: 1500,
+            position: 'top-right',
+          });
+          setTimeout(() => navigate("/reviews", { replace: true }), 1500);
         }
       })
       .catch((error) => {
-        if (error.status === 401) {
+        if (error.response.status === 401) {
           console.log("Incorrect credentials", error);
-        } else if (error.status === 404) {
+          toast.error("Incorrect credentials, please try again", {
+            duration: 2000,
+            position: 'top-right',
+          });
+        } else if (error.response.status === 404) {
           console.log("Account does not exist", error);
-          navigate("/signup", { replace: true });
+          toast.error("Account does not exist, please create an account", {
+            duration: 1500,
+            position: 'top-right',
+          });
+          setTimeout(() => navigate("/signup", { replace: true }), 1500);
         }
       });
   };

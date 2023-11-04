@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import './signup.css';
 
@@ -23,12 +24,20 @@ function SignUp() {
             .then((response) => {
                 if (response.status === 201) {
                     console.log("Account created", response);
-                    navigate("/login");
+                    toast.success("Account created", {
+                        duration: 1500,
+                        position: 'top-right',
+                    });
+                    setTimeout(() => navigate("/login", { replace: true }), 1500);
                 }
             })
             .catch((error) => {
-                if (error.status === 409) {
-                    console.error("Account already exists", error);
+                if (error.response.status === 409) {
+                    console.log("Account already exists", error);
+                    toast.error("Username or account already exists", {
+                        duration: 2000,
+                        position: 'top-right',
+                    });
                 }
             });
     };

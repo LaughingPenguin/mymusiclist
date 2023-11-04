@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const NavBar = () => {
-    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
     function handleClick() {
         forceUpdate();
     }
