@@ -1,5 +1,7 @@
 import React from "react";
 import { monkeyband } from ".";
+import { LinkContainer } from 'react-router-bootstrap'
+import { Button } from "react-bootstrap"
 
 const Hero = () => {
     return (
@@ -10,9 +12,12 @@ const Hero = () => {
                     <p class="lead">to anyone who enjoys music! Share your favorite
                     songs, hear what friends have to say about the latest albums,
                     and get recommendations for your next favorite playlist.</p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                        <button type="button" class="btn btn-primary bd-0 btn-lg px-4 me-md-2">Get Started</button>
-                        <button type="button" class="btn btn-primary btn-lg px-4">Questions?</button>
+                    <div class="d-grid d-md-flex justify-content-md-start mb-4 text-left">
+                        <LinkContainer to="/signup">
+                            <Button variant="primary" className="bd-0" size="lg">
+                                Get Started
+                            </Button>
+                        </LinkContainer>
                     </div>
                 </div>
                 <div class="col-lg-5 offset-lg-0 p-0 overflow-hidden">
