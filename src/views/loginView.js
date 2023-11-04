@@ -64,6 +64,8 @@ function Login() {
           placeholder="Email address"
           value={formData.email}
           onChange={handleChange}
+          autoFocus
+          required
         />
         <input
           type="password"
@@ -72,11 +74,13 @@ function Login() {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
+          required
         />
         <button className="btn btn-lg btn-primary border-0 mt-1" type="submit">
           Login
         </button>
         <p className="text-muted mt-4 pb-lg-2">Don't have an account? <Link to="/signup">Register here</Link></p>
+        <p className="text-muted pb-lg-2">Back to <Link to="/">home</Link></p>
       </form>
     </div>
   );
