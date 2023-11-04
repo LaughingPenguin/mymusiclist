@@ -10,6 +10,7 @@ function SignUp() {
         username: '',
         email: '',
         password: '',
+        cpassword: "",
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,7 +21,14 @@ function SignUp() {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8080/index.php/user/signup', formData)
+        if (formData.password !== formData.cpassword) {
+            console.log("Password and Confirm Password must match");
+            toast.error("Password and Confirm Password must match", {
+            duration: 2000,
+            position: "top-right",
+        });
+        } else {
+            axios.post('http://localhost:8080/index.php/user/signup', formData)
             .then((response) => {
                 if (response.status === 201) {
                     console.log("Account created", response);
@@ -40,6 +48,7 @@ function SignUp() {
                     });
                 }
             });
+        }
     };
     return (
         <div className="text-center d-flex flex-column justify-content-center vh-100 bg-Platinum">
@@ -53,6 +62,10 @@ function SignUp() {
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
+                minLength="3"
+                maxLength="20"
+                autoFocus
+                required
             />
             <input
                 type="email"
@@ -61,6 +74,7 @@ function SignUp() {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
+                required
             />
             <input
                 type="password"
@@ -69,11 +83,26 @@ function SignUp() {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
+                minLength="10"
+                maxLength="25"
+                required
             />
-            <button className="btn btn-lg btn-primary border-0 mt-1" type="submit">
+            <input
+                type="password"
+                name="cpassword"
+                className="form-control"
+                placeholder="Confirm Password"
+                value={formData.cpassword}
+                onChange={handleChange}
+                minLength="10"
+                maxLength="25"
+                required
+            />
+            <button className="btn btn-lg btn-primary border-0 mt-4" type="submit">
                 Sign Up
             </button>
             <p className="text-muted mt-4 pb-lg-2">Already have an account? <Link to="/login">Login here</Link></p>
+            <p className="text-muted pb-lg-2">Back to <Link to="/">home</Link></p>
             </form>
         </div>
     );

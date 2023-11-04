@@ -103,32 +103,39 @@ export default function ReviewsPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:8080/index.php/review/create", formData)
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Create successful", {
-            duration: 1500,
-            position: 'top-right',
-          });
-          console.log("Create successful", response);
-          setTimeout(() => window.location.reload(), 1500);
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 409) {
-          toast.error("You have already created a review for this song", {
-            duration: 2000,
-            position: 'top-right',
-          });
-        } else {
-          toast.error("Create failed", {
-            duration: 2000,
-            position: 'top-right',
-          });
-        }
-        console.error(error);
+    if (isNaN(formData.rating)) {
+      toast.error("A rating was not provided", {
+        duration: 2000,
+        position: 'top-right',
       });
+    } else {
+      axios
+        .post("http://localhost:8080/index.php/review/create", formData)
+        .then((response) => {
+          if (response.status === 200) {
+            toast.success("Create successful", {
+              duration: 1500,
+              position: 'top-right',
+            });
+            console.log("Create successful", response);
+            setTimeout(() => window.location.reload(), 1500);
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 409) {
+            toast.error("You have already created a review for this song", {
+              duration: 2000,
+              position: 'top-right',
+            });
+          } else {
+            toast.error("Create failed", {
+              duration: 2000,
+              position: 'top-right',
+            });
+          }
+          console.error(error);
+      });
+    }
   };
 
   // for deleting the rating
@@ -188,6 +195,7 @@ export default function ReviewsPage() {
           name="song"
           className="form-control bd-1"
           onChange={handleChange}
+          required
         />
         <input
           type="text"
@@ -196,6 +204,7 @@ export default function ReviewsPage() {
           name="artist"
           className="form-control mb-2"
           onChange={handleChange}
+          required
         />
         <div className="rating">
           <input
@@ -438,6 +447,7 @@ export default function ReviewsPage() {
                   name="rating"
                   onChange={handleUpdateChange}
                   id="updatedrating"
+                  required
                 >
                   <option value="1">1</option>
                   <option value="2">2</option>
