@@ -34,12 +34,20 @@ function SignUp() {
           .then((response) => {
             if (response.status === 201) {
               console.log("Account created", response);
+              toast.success("Account created", {
+                duration: 1500,
+                position: "top-right",
+              });
               navigate("/login");
             }
           })
           .catch((error) => {
             if (error.status === 409) {
               console.error("Account already exists", error);
+              toast.error("Username or account already exists", {
+                duration: 2000,
+                position: "top-right",
+              });
             }
           });
       }
