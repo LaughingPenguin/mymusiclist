@@ -10,6 +10,7 @@ function Login() {
     password: "",
   });
   const navigate = useNavigate();
+  // handle input changes by updating formData when user types
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -17,15 +18,18 @@ function Login() {
       [name]: value,
     }));
   };
+  // handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
       .post("http://localhost:8080/index.php/user/login", formData)
       .then((response) => {
+        // if login is successful, extract authorization token from the response
         if (response.status === 200) {
           if (response.headers.authorization) {
             const authorizationHeader = response.headers.authorization;
             const [, token] = authorizationHeader.split('Bearer ');
+            // store token in local storage for future authenticated requests
             localStorage.setItem("token", token);
           }
           toast.success("Login successful", {
@@ -35,6 +39,7 @@ function Login() {
           setTimeout(() => navigate("/reviews", { replace: true }), 1500);
         }
       })
+      // handle authentication or user not found errors with route navigation
       .catch((error) => {
         if (error.response.status === 401) {
           console.log("Incorrect credentials", error);
