@@ -38,11 +38,11 @@ function SignUp() {
                 duration: 1500,
                 position: "top-right",
               });
-              navigate("/login");
+              setTimeout(() => navigate("/login", { replace: true }), 1500);
             }
           })
           .catch((error) => {
-            if (error.status === 409) {
+            if (error.response.status === 409) {
               console.error("Account already exists", error);
               toast.error("Username or account already exists", {
                 duration: 2000,
